@@ -1,0 +1,128 @@
+##########################################
+# SNAKEMAKE PROFILE FOR SUM-Seq PIPELINE #
+##########################################
+
+# Performance
+cores: 16
+local-cores: 2
+latency-wait: 300
+restart-times: 1
+
+# Development options
+printshellcmds: True
+notemp: false
+keep-going: True
+reason: True
+
+## Rules for incomplete rule exits
+rerun-incomplete: True
+keep-incomplete: False
+
+
+# Container, modules and conda
+use-singularity: False
+singularity-prefix: "/g/zaugg/zaugg_shared/Programs/Snakemake/singularity"
+# Important: Do not remove the /var/logs/bcl-convert bind here, see the documentation for details
+singularity-args: "--bind /g/scb,/g/zaugg,/scratch,/tmp:/var/log/bcl-convert"
+
+use-conda: True
+conda-prefix: "/home/projects/icell/sumseq_pilot/RNA/snakemake_conda_envs"
+
+use-envmodules: False
+
+# Cluster options
+executor: slurm 
+jobs: 100
+max-jobs-per-second: 10
+max-status-checks-per-second: 10
+show-failed-logs: True
+
+set-threads:
+  # RNA rules
+  bcl2fastq: 20
+  joint_barcodes: 16
+  je_demultiplex: 1
+  demultiplex_defastq: 16
+  fastp_RNA: 8
+  fastqc_RNA: 1
+  STARsolo: 16
+  kneeplot_cell_identification: 8
+  heatmap_STARsolo_parce: 4
+  generate_seurat: 4
+
+  # ATAC rules
+  bcl_convert: 16
+  fastp_ATAC: 8
+  fastqc_ATAC: 1
+  chromap: 16
+  indexFragmentFiles: 16
+  mergeFragmentFiles: 16
+  create_ArchR_project: 8
+
+  # Combined rules
+  multiqc_dir: 1
+
+set-resources:
+  # RNA rules
+  bcl2fastq:
+    mem_mb: 40000
+    runtime: "48h"
+  joint_barcodes:
+    mem_mb: 20000
+    runtime: "15h"
+  demultiplex_defastq:
+    mem_mb: 40000
+    runtime: "15h"
+  fastp_RNA:
+    mem_mb: 10000
+    runtime: "2h"
+  je_demultiplex:
+    mem_mb: 30000
+    runtime: "48h"
+  fastqc_RNA:
+    mem_mb: 10000
+    runtime: "2h"
+  downloadSTARIndex:
+    mem_mb: 20000
+    runtime: "5h"   
+  STARsolo:
+    mem_mb: 40000
+    runtime: "5h"
+  kneeplot_cell_identification:
+    mem_mb: 20000
+    runtime: "1h"
+  heatmap_STARsolo_parce:
+    mem_mb: 20000
+    runtime: "1h"
+  generate_seurat:
+    mem_mb: 30000
+    runtime: "10h"
+
+  # ATAC rules
+  bcl_convert:
+    mem_mb: 80000
+    runtime: "24h"
+  fastp_ATAC:
+    mem_mb: 10000
+    runtime: "5h"
+  fastqc_ATAC:
+    mem_mb: 10000
+    runtime: "2h"
+  chromap:
+    mem_mb: 30000
+    runtime: "10h"
+  indexFragmentFiles:
+    mem_mb: 20000
+    runtime: "3h"
+  mergeFragmentFiles:
+    mem_mb: 30000
+    runtime: "48h"
+  create_ArchR_project:
+    mem_mb: 30000
+    runtime: "10h"
+
+
+  # Combined rules
+  multiqc_dir:
+    mem_mb: 10000
+    runtime: "1h"
