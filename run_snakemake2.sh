@@ -14,7 +14,7 @@ DRYRUN="--dry-run"
 snakemake \
   --profile profiles/slurm \
   --configfile example/input/config_leo.yaml \
-  --rerun incomplete \
+  --rerun-incomplete \
   $DRYRUN
 
 conda deactivate
