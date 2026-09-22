@@ -1,0 +1,93 @@
+#######################
+# CONFIGURATION FILE  #
+#######################
+
+general:
+
+  # Root output dir. Make sure this directory is located somewhere on `/scratch` and NOT on `/g`. Specify the absolute path here. (DOES NOT APPLY TO US)
+  outDir: "/home/projects/icell/sumseq_pilot/RNA/sumseq_outdir"
+
+  # Process RNA. True or False
+  processRNA: True
+
+  #Process ATAC. True or False
+  processATAC: False
+
+  # Genome abbreviation. Default hg38. Supported genomes are: mm9, mm10, mm39, hg19, hg38. Needed for all R-based scripts
+  genome: "hg38"
+
+  #Path to the barcode whitelist, needed for both RNA and ATAC processing. The barcodes on the gel beads of the 10x Genomics platform. Relative to the directory from which you invoke snakemake or an absolute path. Make sure to select a correct one here: Depending on the sequencing chemistry and machine, it may be the reverse complement or not. The default is to use the 10x Single Cell ATAC
+  whiteList: "resources/10x_barcodeWhitelist/737K-cratac-v1.revComp.txt" 
+
+  # Path to genome in (compressed) fasta format. Default: empty string (automatic download based on specified genome version). See the README file for details
+  genomeFasta: ""
+
+Performance:
+# Currently no parameters here
+
+RNA:
+
+  # Either "bcl" or "fastq"
+  inputType_RNA: "bcl"
+
+  # Absolute path to the bcl dir. Only needed if inputType_RNA: "bcl". Make sure the file RunInfo.xml exists
+  bclDir:  "/home/projects/icell/sumseq_pilot/raw/260903_A00383_1107_AHTMK3DRX7"
+
+  #NOT NEEDED (LINES BELOW)
+  # Only relevant and needed if inputType_RNA: "fastq", ignored otherwise
+  # 5 columns, column names are checked and must be identical: sampleName, R1, R2, I1, I2.
+  # Only ONE header line and ONE data line is supported, all additional lines are ignored. fastq files **before** demultiplexing have to be specified, see README
+  fastq_sampleTable: 'example/input/metadata/sampleSheet.fastq_RNA.tsv'
+
+  # Path to the barcode sample sheet. Relative to the directory from which you invoke snakemake
+  barcodes: "/home/projects/icell/sumseq_pilot/RNA/rna_barcodes_pilot.tsv"
+
+  # Length of the droplet barcode. Default is 16 bp. Only change this value if you know what you are doing.
+  dropletBarcode_length: 16
+
+  # Length of the UMI. Default is 10 bp. Only change this value if you know what you are doing.
+  UMI_length: 10
+
+  # Length of spacer. Default 0. Only set to a value >0 if necessary
+  spacer_length: 0
+
+  # Either "defastq" or "je". The default is "defastq", which is much faster than "je". For AVITI data, use "je" if defastq throws errors.
+  demultiplexProgram: "defastq"
+
+
+  # Path to STAR index folder. Default: empty string (automatic download based on specified genome version). See the README file for details
+  STAR_index: '/home/projects/icell/sumseq_pilot/RNA/hg38_bp100'
+
+  # Refers to the argument soloFeatures from STAR. Either Gene, SJ, or GeneFull. Default GeneFull.
+  # In addition to the normal gene counts (gene), STARsolo can calculate counts for other transcriptomic features: (1) pre-mRNA counts, useful for single-nucleus RNA-seq. This counts all read that overlap gene loci, i.e. included both exonic and intronic reads (GeneFull) OR (2) counts for annotated and novel splice junctions (SJ)
+  countQuantificationType: "GeneFull"
+
+
+ATAC:
+  # Either "bcl" or "fastq"
+  inputType_ATAC: "bcl"
+
+  # Absolute path to the bcl dir. Only needed if inputType_ATAC: "bcl"
+  bclDir: '/g/scb/zaugg/zaugg_shared/data/SUM-seq_example_dir/test_run/data/ATAC/bcl/230711_VH00558_371_AAAWKYHHV'
+
+  # Only relevant and needed if inputType_ATAC: "fastq", ignored otherwise
+  # Input folder for the fastq files. All fastq files must be in the same directory.
+  # The naming must be {name}_{read}_{suffix}.fastq.gz.
+  # {name} is the samepl name. {read} is either R1, R2, I1 or I2. {suffix} is any suffix, see the parameter fastq_fileSuffix below
+  fastq_inputFolder: '/g/scb/zaugg/pefstath/SUMseq/src/workflow/example/output/output/ATAC/2.Demux'
+
+  # Only relevant and needed if inputType_ATAC: "fastq", ignored otherwise
+  # 1 column only, column names are checked and must be identical: sampleName
+  fastq_sampleTable: 'example/input/metadata/sampleSheet.fastq_ATAC.tsv'
+
+  # If fastq files have a particular suffix after the read type (R1, R2, I2), specify this here. Leave empty otherwise. Do NOT add the file ending here
+  fastq_fileSuffix: "_001"
+
+  # Path to the sample sheet. Relative to the directory from which you invoke snakemake
+  barcodes: 'example/input/metadata/barcodes_ATAC.tsv'
+
+  # Path to Chromap index file. Default: empty string (automatic download based on specified genome version). See the README file for details
+  chromapIndex: ""
+
+
+
