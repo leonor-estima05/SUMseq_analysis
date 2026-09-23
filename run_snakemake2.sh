@@ -3,7 +3,7 @@
 #SBATCH --cpus-per-task=20
 
 source ~/.bashrc
-source #OWN PATH TO CONDA LOCAL MISSING
+source /home/l.estima/miniforge3/etc...
 
 conda activate snakemake
 
