@@ -35,6 +35,7 @@ scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added ye
 
 # Data Limitations
 Due to low read depth, intMono may be excluded from some analyses.
+*Ctrl3-MV6 are hiPSCs not relevant to this project, but that were also sequenced and so appear on QC graphs
 <img width="1200" height="800" alt="star_gene_counts" src="https://github.com/user-attachments/assets/6990dd7c-82af-4cdd-a0fe-4aa66b0cc3d5" />
 
 
