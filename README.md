@@ -23,14 +23,14 @@ Data preprocessing was done using the 9.26.1 version of the SnakeMake pipeline f
 
 RNA
 1. [`01_qc_RNA.py`](RNA_analysis/01_qc_RNA.py) - QC, Filtering, Doublet Detecting, Normalization, Feature Selection
-2. 02_clustering_RNA.py: PCA, neighbor UMAP, Leiden Clustering, Marker Gene Expression
-3. DESeq2_SUMseq.R: Differential expression analysis
-4. ClusterProfiler_SUMseq.R: Enrichment
+2. [`02_clustering_RNA.py`](RNA_analysis/02_clustering_RNA.py) - PCA, neighbor UMAP, Leiden Clustering, Marker Gene Expression
+3. [`DESeq2_SUMseq.R`](RNA_analysis/DESeq2_SUMseq.R) - Differential expression analysis
+4. [`ClusterProfiler_SUMseq.R`](RNA_analysis/ClusterProfiler_SUMseq.R) - Enrichment
 
 ATAC
-1. ArchR_SUMseq.R: QC, Peak Calling, Cell Clustering on Accessibility, Marker Scores, Gene Activity Scores, Motif Enrichment
+1. [`ArchR_SUMseq.R`](ATAC_analysis/ArchR_SUMseq.R) - QC, Peak Calling, Cell Clustering on Accessibility, Marker Scores, Gene Activity Scores, Motif Enrichment
 
-scATAC + scRNA (Gene Regulatory Network Analysis) *Script has no been added yet
-1. SCENIC+: Infering Gene Regulatory Networks
+scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added yet**
+1. SCENIC+ - Infering Gene Regulatory Networks
 
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
