@@ -33,4 +33,4 @@ ATAC
 scATAC + scRNA (Gene Regulatory Network Analysis) *Script has no been added yet
 1. SCENIC+: Infering Gene Regulatory Networks
 
-# As this analysis is ongoing, the scripts and organization may change at any time
+**As this analysis is ongoing, the scripts and organization may change at any time**
