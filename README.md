@@ -34,9 +34,8 @@ scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added ye
 1. SCENIC+ - Inferring Gene Regulatory Networks
 
 # Data Limitations
-Due to extremely low median gene count/cell, intMono's RNA data has been excluded from the analysis. ncMo and cMo will be pseudobulked for ClusterProfiler and DESeq.
 <img width="672" height="147" alt="image" src="https://github.com/user-attachments/assets/a4391994-157b-461c-b190-cf11bf80c6b6" />
-
+Due to extremely low median gene count/cell, intMono's RNA data has been excluded from the analysis. ncMo and cMo will be pseudobulked for ClusterProfiler and DESeq.
 
 
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
