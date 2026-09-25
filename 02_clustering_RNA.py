@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import anndata as ad
-import pooch
 import scanpy as sc
 
 sc.set_figure_params(dpi=100, facecolor="white")
