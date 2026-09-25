@@ -1,7 +1,7 @@
 # SUMseq_analysis
 Analysis of paired scRNA and scATAC data from hiPSC-derived monocytes (iMono) and primary monocytes (classical, intermediate, and non-classical) generated with an optimized SUM-sequencing protocol.
 
-The scripts and analyses are part of my Underaduate Capstone Project at Erasmus University College, I assisted with the data gathering during my research internship at Erasmus Medical Center.
+The scripts and analyses are part of my Undergraduate Capstone Project at Erasmus University College, I assisted with the data gathering during my research internship at Erasmus Medical Center.
 
 # Background
 In modern research hiPSCs are commonly used as models for monocyte subsets and other immune cells. There is also increasing attention on stem cell transplantation therapies for chronic disorders, however there is a lack of research comparing simultaneous scRNA and scATAC data between primary monocyte and these hiPSC models. This project aims to address this gap, including addressing any proliferation or pluripotency-associated open loci. This project uses SUM-sequencing to gather the simultaneous transcriptome and chromatin profiles (single-cell multi-omic sequencing, Yildiz et al. 2026, DOI: 10.1038/s41596-025-01310-0). The project aims to answer the following questions:
@@ -31,11 +31,12 @@ ATAC
 1. [`ArchR_SUMseq.R`](ATAC_analysis/ArchR_SUMseq.R) - QC, Peak Calling, Cell Clustering on Accessibility, Marker Scores, Gene Activity Scores, Motif Enrichment
 
 scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added yet**
-1. SCENIC+ - Infering Gene Regulatory Networks
+1. SCENIC+ - Inferring Gene Regulatory Networks
 
 # Data Limitations
-Due to low read depth, intMono may be excluded from some analyses.
-<img width="1200" height="800" alt="star_gene_counts" src="https://github.com/user-attachments/assets/6990dd7c-82af-4cdd-a0fe-4aa66b0cc3d5" />
-*Ctrl3-MV6 are hiPSCs not relevant to this project, but that were also sequenced and so appear on QC graphs*
+Due to extremely low median gene count/cell, intMono's RNA data has been excluded from the analysis. ncMo and cMo will be pseudobulked for ClusterProfiler and DESeq.
+<img width="672" height="147" alt="image" src="https://github.com/user-attachments/assets/a4391994-157b-461c-b190-cf11bf80c6b6" />
+
+
 
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
