@@ -96,6 +96,10 @@ sc.pp.filter_genes(adata_RNA, min_cells=3) #genes in less than 3 cells
 print(f"After filtering: {adata_RNA.shape[0]} cells, {adata_RNA.shape[1]} genes")
 print("Filtering complete")
 
+#Save full unfiltered counts (all genes, all cells) as a DESeq2 fallback
+adata_RNA_full = adata_RNA.copy()
+adata_RNA_full.write_h5ad("adata_full_counts.h5ad")
+
 
 #3 DOUBLET REMOVAL (Warning: Scrublet takes a while)
 #Run doublet detection algorithm called Scrublet (Wolock et. al., 2019)
@@ -108,13 +112,13 @@ adata_RNA.obs["predicted_doublet"] = False
 adata_RNA.obs.loc[imono.obs_names, "predicted_doublet"] = imono.obs["predicted_doublet"]
 adata_RNA.obs["doublet_score"] = float("nan")
 adata_RNA.obs.loc[imono.obs_names, "doublet_score"] = imono.obs["doublet_score"]
-print(f"Predicted doublets in iMono: {imono.obs["predicted_doublet"].sum()} of {imono.n_obs} cells")
+print(f"Predicted doublets in iMono: {imono.obs['predicted_doublet'].sum()} of {imono.n_obs} cells")
 
 
-#Saving count data before normalization for DESeq2
+#Saving filtered count data before normalization for DESeq2
 
-adata_RNA_forDES = adata.copy()
-adata_RNA_forDES.write_h5ad("adata_forDES.h5ad")
+adata_RNA_forDES = adata_RNA.copy()
+adata_RNA_forDES.write_h5ad("adata_filtered_counts.h5ad")
 
 adata_RNA.layers["counts"] = adata_RNA.X.copy()
 
@@ -142,7 +146,7 @@ sc.pl.highly_variable_genes(adata_RNA)
 #PCA reveals main axes of variation + does denoising
 
 sc.tl.pca(adata_RNA, n_comps=30, use_highly_variable=True)
-sc.pl.pca_variance_ratio(adata_RNA, n_pcs=50, log=True) #variance plot
+sc.pl.pca_variance_ratio(adata_RNA, n_pcs=30, log=True) #variance plot
 sc.pl.pca( # principal components plot
     adata_RNA,
     color=["sample", "sample", "pct_counts_mt", "pct_counts_mt"],
@@ -171,7 +175,7 @@ sc.pp.neighbors(adata_RNA, n_pcs=15)
 sc.tl.umap(adata_RNA)
 sc.pl.umap(
     adata_RNA,
-    color=["sample", "total_counts", "n_genes_by_count", "pct_counts_mt"],
+    color=["sample", "total_counts", "n_genes_by_counts", "pct_counts_mt"],
     size=2,
     ncols=2,
 )
@@ -249,6 +253,7 @@ marker_genes = {
 all_genes = [g for gs in marker_genes.values() for g in gs]
 missing = [g for g in all_genes if g not in adata_RNA.var_names]
 print("Missing:", missing)
+marker_genes = {k: [g for g in v if g in adata_RNA.var_names] for k, v in marker_genes.items()}
 
 sc.pl.dotplot(adata_RNA, marker_genes, groupby="leiden_res_0.50", standard_scale="var") #can change res
 
@@ -261,6 +266,11 @@ imono_panel = {
     "pluripotency": ["POU5F1", "NANOG", "SOX2", "LIN28A", "DNMT3B"],
     "proliferation": ["MKI67", "TOP2A"],
 }
+
+missing_panel = [g for gs in imono_panel.values() for g in gs if g not in imono_sub.var_names]
+print("Missing from iMono panel:", missing_panel)
+imono_panel = {k: [g for g in v if g in imono_sub.var_names] for k, v in imono_panel.items()}
+
 sc.pl.dotplot(imono_sub, imono_panel, groupby="leiden_res_0.50", standard_scale="var")
 
 #11 DIFFERENTLY EXPRESSED GENES AS MARKERS
