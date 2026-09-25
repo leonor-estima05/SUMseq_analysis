@@ -59,6 +59,7 @@ sc.pl.violin(
     groupby="sample",
     jitter=0.4,
     multi_panel=True,
+    save="_qc_metrics.pdf",
 )
 
 #For my violin and scatter plots im seperating by cell type
@@ -71,13 +72,13 @@ sc.pl.violin(
 #Total Count: Want normal distribution. Outliers remove on either side.
 
 # mt vs total counts
-sc.pl.scatter(adata_RNA, x='total_counts', y='pct_counts_mt', color='sample')
+sc.pl.scatter(adata_RNA, x="total_counts", y="pct_counts_mt", color="sample", save="_mt_vs_counts.pdf")
 # hb vs total counts
-sc.pl.scatter(adata_RNA, x='total_counts', y='pct_counts_hb', color='sample')
+sc.pl.scatter(adata_RNA, x="total_counts", y="pct_counts_hb", color="sample", save="_hb_vs_counts.pdf")
 # ribo vs total counts
-sc.pl.scatter(adata_RNA, x='total_counts', y='pct_counts_ribo', color='sample')
+sc.pl.scatter(adata_RNA, x="total_counts", y="pct_counts_ribo", color="sample", save="_ribo_vs_counts.pdf")
 # genes vs total counts (for doublet detection)
-sc.pl.scatter(adata_RNA, x='total_counts', y='n_genes_by_counts', color='sample')
+sc.pl.scatter(adata_RNA, x="total_counts", y="n_genes_by_counts", color="sample", save="_genes_vs_counts.pdf")
 
 #Based on the QC Metric plots filter out low quality cells/genes-change based on findings
 #They filtered cells with less than 20 genes expressed and genes detected in less than 3 cells, this is low due to low sequencing depth
@@ -137,7 +138,7 @@ sc.pp.log1p(adata_RNA)
 #Uses scanpy function pp.highly_variable_genes
 
 sc.pp.highly_variable_genes(adata_RNA, n_top_genes=500) #low top gene number used due to low count data
-sc.pl.highly_variable_genes(adata_RNA)
+sc.pl.highly_variable_genes(adata_RNA, save="_hvg.pdf")
 # then filter to keep only highly variable genes, not doing this due to later gene expression analysis combined with low count data
 #adata_RNA = adata_RNA[:, adata_RNA.var['highly_variable']].copy()
 
