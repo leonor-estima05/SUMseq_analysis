@@ -1,4 +1,3 @@
-#https://www.archrproject.com/bookdown/debugging-and-troubleshooting-in-archr.html
 
 
 if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
@@ -10,6 +9,8 @@ devtools::install_github("GreenleafLab/ArchR", ref="dev", repos = BiocManager::r
 library(ArchR)
 ArchR::installExtraPackages()
 set.seed(1)
+
+#1 DATA LOADING
 
 input_files <- list.files(path = "Path to arrow files", 
                           pattern = ".arrow$",
@@ -27,6 +28,8 @@ proj #check project creation worked, also gives you # of sample cells
 
 addArchRThreads(threads=1)
 addArchRGenome("hg38")
+
+#2 QUALITY CONTROL
 
 #Quality Control Per Cell-likely already done by snakemake
 #1. Number of unique nuclear fragments (not MT DNA), cells with too little fragments are not useful
@@ -56,7 +59,7 @@ qc_plot <- ggPoint( #combined QC plot
 qc_plot
 
 
-#Doublet Removal
+#3 DOUBLET REMOVAL
 
 proj <- addDoubletScores(
   input = proj,
@@ -68,7 +71,7 @@ proj <- addDoubletScores(
 proj <- filterDoublets(proj, filterRatio = 1.5) #Adjust ratio as needed
 
 
-#Dimensionality Reduction with LSI (Latent Semantic Indexing)
+#4 DIMENSIONALITY REDUCTION WITH LATENT SEMANTIC INDEXING (LSI) 
 
 proj <- addIterativeLSI(
   ArchRproj = proj,
@@ -85,7 +88,7 @@ proj <- addIterativeLSI(
 )
 
 
-#Batch Effect Correction with Harmony
+#5 BATCH CORRECTION (May not be used)
 
 proj <- addHarmony(
   ArchRProj = proj,
@@ -95,7 +98,7 @@ proj <- addHarmony(
 )
 
 
-#Clustering with Seurat
+#6 CLUSTERING
 
 proj <- addClusters(
   input = proj,
@@ -131,9 +134,9 @@ plotPDF(p2, name = "Sample-UMAP.pdf", ArchRProj = proj, addDOC = FALSE, width = 
 
 saveArchRProject(ArchRProj = proj, outputDirectory = "Save-Proj", load = FALSE)
 
-#Gene Marker UMAPs
+#7 GENE MARKER UMAPS
 
-markergenes <- list(                                   #SOURCE
+markergenes <- list(                                   
   "monocyte general": c("PTPRC", "CD33", "HLA-DRA"),
   "classical monocyte": c("CD14"),
   "intermediate monocyte": c("CD14", "FCGR3A"),
@@ -168,7 +171,7 @@ marker_UMAP <- plotEmbedding(
 #)
 
 
-#Annotating Clusters
+#8 ANNOTATING CLUSTERS
 
 markers_annotate <- getMarkerFeatures(
   ArchRProj = proj,
@@ -204,7 +207,7 @@ plotEmbedding(
   embedding = "UMAP",
 )
 
-#Pluripotency checking
+#9 CHECKING FOR PLURIPOTENCY-ASSOCIATED LOCI (May add proliferation-associated)
 
 pluripotencyGenes <- c("POU5F1", "NANOG", "SOX2", "KLF4", "MYC", "DNMT3B", "EPCAM") #SOURCE
 
@@ -228,7 +231,7 @@ pluripotency_trackplot <- plotBrowserTrack(
 grid::grid.draw(pluripotency_trackplot$POU5F1) #Adjust as needed
 
 
-#Calling Peaks with Macs2
+#10 MAC2 CALLING PEAKS
 
 # Install MACS2 externally by running either of the code below on a terminal or WSL
 # pip install MACS2
@@ -237,7 +240,6 @@ grid::grid.draw(pluripotency_trackplot$POU5F1) #Adjust as needed
 # Find MACS2 to see if installation worked
 # pathToMacs2 <- findMacs2()
 
-#Peak Calling with MACS2
 #Create pseudo-bulk replicates per cell type
 
 proj <- addGroupCoverage(
@@ -267,7 +269,7 @@ peaks_heatmap <- plotMarkerHeatMap(               #THIS IS IMPORTANT!!!!!
 draw(heatmapPeaks, heatmap_legend_side = "bot", annotation_legend_side = "bot")
 
 
-#Motif Enrichment and chromVAR (identify which TF binding motifs are enriched in accessible domain regions of each cell type)
+#11 MOTIF ENRICHMENT AND CHROME VAR (identify which TF binding motifs are enriched in accessible domain regions of each cell type)
 
 proj <- addMotifAnnotations(
   ArchRProj = proj,
@@ -314,7 +316,7 @@ p <- plotEmbedding(
   imputeWeights = getImputeWeights(proj)
 )
 
-#Peak to Gene (for Scenic+)
+#12 PEAK TO GENE (for Scenic+)
 
 proj <- addPeak2GeneLinks(
   ArchRProj = proj,
@@ -339,7 +341,7 @@ p <- plotBrowserTrack(  #shows the peak-gene links visually
 
 grid:grid.draw(p$CD14) #Adjust gene of interest 
 
-#HeatMap of Peak to Gene Links
+#13 HEATMAP OF PEAK TO GENE LINKS
 
 p2g_heatmap <- plotPeak2GeneHeatmap( #shows peak-gene pair clusters for each cell type
   ArchRProj = proj,
