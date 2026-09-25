@@ -141,6 +141,8 @@ sc.pl.highly_variable_genes(adata_RNA)
 # then filter to keep only highly variable genes, not doing this due to later gene expression analysis combined with low count data
 #adata_RNA = adata_RNA[:, adata_RNA.var['highly_variable']].copy()
 
+adata_RNA.write_h5ad("after_qc.h5ad")
+print(f"Saved: {adata_RNA.shape[0]} cells, {adata_RNA.shape[1]} genes")
 
 #6 PCA → DIMENSIONALITY REDUCTION
 #PCA reveals main axes of variation + does denoising
