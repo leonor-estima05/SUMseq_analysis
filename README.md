@@ -22,7 +22,7 @@ Data preprocessing was done using the 9.26.1 version of the SnakeMake pipeline f
 # Order of Analysis
 
 RNA
-1. 01_qc_RNA.py-QC: Filtering, Doublet Detecting, Normalization, Feature Selection
+1. [`01_qc_RNA.py`](RNA_analysis/01_qc_RNA.py) - QC, Filtering, Doublet Detecting, Normalization, Feature Selection
 2. 02_clustering_RNA.py: PCA, neighbor UMAP, Leiden Clustering, Marker Gene Expression
 3. DESeq2_SUMseq.R: Differential expression analysis
 4. ClusterProfiler_SUMseq.R: Enrichment
