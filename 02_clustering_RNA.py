@@ -1,5 +1,37 @@
+from __future__ import annotations
 
+import anndata as ad
+import pooch
+import scanpy as sc
 
+sc.set_figure_params(dpi=100, facecolor="white")
+
+#1. DATA LOADING
+#Real Data Formats:
+#RNA: barcodes.tsv(cell IDs), features.tsv(gene data), matrix.mtx and a merged seurat object .qs
+#ATAC: fragments as .bed.gz, ArchR .arrow (not scanpy!)
+
+base = "/home/l.estima/scanpy_input" #dir with individual sample mtx files (wrapped into .gz so read_10x_mtx will work)
+
+samples = {
+    "iMono": f"{base}/iMono",
+    "cMo": f"{base}/cMo",
+    #"intMo": f"{base}/intMo", #intMo will not be run, at 3 median genes per cell it would produce too much noise.
+    "ncMo": f"{base}/ncMo",
+}
+
+RNA_datasets = {}
+
+for sample_id, path in samples.items():
+    sample_adata = sc.read_10x_mtx(path) #or _h5 depending on file format
+    sample_adata.var_names_make_unique()
+    RNA_datasets[sample_id] = sample_adata
+
+adata_RNA = ad.concat(RNA_datasets, label = "sample", index_unique = "_")
+print(adata_RNA.obs["sample"].value_counts())
+print(adata_RNA) #will show number of cells x genes
+
+adata_RNA = sc.read_h5ad("after_qc.h5ad")
 
 
 #6 PCA → DIMENSIONALITY REDUCTION
