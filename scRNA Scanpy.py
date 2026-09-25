@@ -19,11 +19,13 @@ sc.set_figure_params(dpi=100, facecolor="white")
 #RNA: barcodes.tsv(cell IDs), features.tsv(gene data), matrix.mtx and a merged seurat object .qs
 #ATAC: fragments as .bed.gz, ArchR .arrow (not scanpy!)
 
-adata_RNA = sc.read_10x_mtx("file path to folder with the 3 RNA files") #or other _filetype
+adata_RNA = sc.read_10x_mtx("file path to folder with the 3 RNA files") #or other filetype
 
 #samples = {
-    #"ipsc mono": "file path to folder with the 3 RNA files for iPSCs",
-    #"primary mono": "file path to folder with the 3 RNA files for monocytes",
+    #"iMono: "file path to folder with the 3 RNA files for iPSCs",
+    #"cMo": "file path to folder with the 3 RNA files for monocytes",
+    #"intMo": "",
+    #"ncMo": "",
 #}
 
 #RNA_datasets = {}
