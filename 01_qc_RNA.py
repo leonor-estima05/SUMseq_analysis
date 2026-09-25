@@ -1,15 +1,12 @@
 #Installed scanpy anndata
 #Installed leidenalg igraph
-#Installed pooch (background manager for scanpy to import datasets)-not needed in actual data
 #Installed scikit-image
 #Installed scanpy[scrublet]
-#Installed harmonypy 0.0.6 #will not be used because it makes little biological sense
 
 
 from __future__ import annotations
 
 import anndata as ad
-import pooch
 import scanpy as sc
 
 sc.set_figure_params(dpi=100, facecolor="white")
