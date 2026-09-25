@@ -6,45 +6,22 @@ import scanpy as sc
 
 sc.set_figure_params(dpi=100, facecolor="white")
 
-#1. DATA LOADING
-#Real Data Formats:
-#RNA: barcodes.tsv(cell IDs), features.tsv(gene data), matrix.mtx and a merged seurat object .qs
-#ATAC: fragments as .bed.gz, ArchR .arrow (not scanpy!)
-
-base = "/home/l.estima/scanpy_input" #dir with individual sample mtx files (wrapped into .gz so read_10x_mtx will work)
-
-samples = {
-    "iMono": f"{base}/iMono",
-    "cMo": f"{base}/cMo",
-    #"intMo": f"{base}/intMo", #intMo will not be run, at 3 median genes per cell it would produce too much noise.
-    "ncMo": f"{base}/ncMo",
-}
-
-RNA_datasets = {}
-
-for sample_id, path in samples.items():
-    sample_adata = sc.read_10x_mtx(path) #or _h5 depending on file format
-    sample_adata.var_names_make_unique()
-    RNA_datasets[sample_id] = sample_adata
-
-adata_RNA = ad.concat(RNA_datasets, label = "sample", index_unique = "_")
-print(adata_RNA.obs["sample"].value_counts())
-print(adata_RNA) #will show number of cells x genes
-
 adata_RNA = sc.read_h5ad("after_qc.h5ad")
+print(adata_RNA)
 
 
 #6 PCA → DIMENSIONALITY REDUCTION
 #PCA reveals main axes of variation + does denoising
 
 sc.tl.pca(adata_RNA, n_comps=30, use_highly_variable=True)
-sc.pl.pca_variance_ratio(adata_RNA, n_pcs=30, log=True) #variance plot
+sc.pl.pca_variance_ratio(adata_RNA, n_pcs=30, log=True, save="_variance.pdf") #variance plot
 sc.pl.pca( # principal components plot
     adata_RNA,
     color=["sample", "sample", "pct_counts_mt", "pct_counts_mt"],
     dimensions=[(0, 1), (2, 3), (0, 1), (2, 3)],
     ncols=2,
     size=2,
+    save="_qc_metrics_plot.pdf",
 )
 
 #Reading the PCA Plots
@@ -70,6 +47,7 @@ sc.pl.umap(
     color=["sample", "total_counts", "n_genes_by_counts", "pct_counts_mt"],
     size=2,
     ncols=2,
+    save="_neighbor_umap.pdf",
 )
 
 
@@ -78,7 +56,7 @@ sc.pl.umap(
 # Using the igraph implementation and a fixed number of iterations can be significantly faster,
 # especially for larger datasets
 sc.tl.leiden(adata_RNA, flavor="igraph", n_iterations=2, directed=False)
-sc.pl.umap(adata_RNA, color=["leiden"])
+sc.pl.umap(adata_RNA, color=["leiden"], save="_leiden_cluster.pdf")
 
 #Reading Leiden UMAP
     #Each dot = 1 cell
@@ -97,6 +75,7 @@ sc.pl.umap(
     #increase horizontal space between panels
     wspace=0.5,
     size=3,
+    save="_doublet_quality_umap.pdf",
 )
 
 sc.pl.umap(
@@ -104,6 +83,7 @@ sc.pl.umap(
     color=["leiden", "log1p_total_counts", "pct_counts_mt", "log1p_n_genes_by_counts"],
     wspace=0.5,
     ncols=2,
+    save=_"gene_count_umap.pdf",
 )
 
 #Reading QC UMAPS
@@ -149,7 +129,7 @@ marker_genes = {k: [g for g in v if g in adata_RNA.var_names] for k, v in marker
 
 sc.pl.dotplot(adata_RNA, marker_genes, groupby="leiden_res_0.50", standard_scale="var") #can change res
 
-sc.pl.dotplot(adata_RNA, marker_genes, groupby="sample", standard_scale="var")
+sc.pl.dotplot(adata_RNA, marker_genes, groupby="sample", standard_scale="var", save="_markers_by_sample.pdf")
 
 imono_sub = adata_RNA[adata_RNA.obs["sample"] == "iMono"].copy()
 
@@ -163,7 +143,7 @@ missing_panel = [g for gs in imono_panel.values() for g in gs if g not in imono_
 print("Missing from iMono panel:", missing_panel)
 imono_panel = {k: [g for g in v if g in imono_sub.var_names] for k, v in imono_panel.items()}
 
-sc.pl.dotplot(imono_sub, imono_panel, groupby="leiden_res_0.50", standard_scale="var")
+sc.pl.dotplot(imono_sub, imono_panel, groupby="leiden_res_0.50", standard_scale="var", save="_markers_imono.pdf")
 
 #11 DIFFERENTLY EXPRESSED GENES AS MARKERS
 
@@ -187,6 +167,9 @@ for cl in imono_sub.obs["leiden_res_0.50"].cat.categories:
     #frameon=False,
     #ncols=3,
 #)
+
+adata_RNA.write_h5ad("after_clustering.h5ad")
+imono_sub.write_h5ad("imono_clustered.h5ad")
 
 
 #then move onto DESeq2
