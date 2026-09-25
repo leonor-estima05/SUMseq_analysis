@@ -84,6 +84,10 @@ sc.pl.scatter(adata_RNA, x="total_counts", y="n_genes_by_counts", color="sample"
 #They filtered cells with less than 20 genes expressed and genes detected in less than 3 cells, this is low due to low sequencing depth
 #Set cell # by 0.1% of total cells
 
+#Save full unfiltered counts (all genes, all cells) as a DESeq2 fallback
+adata_RNA_full = adata_RNA.copy()
+adata_RNA_full.write_h5ad("adata_full_counts.h5ad")
+
 print(f"Before filtering: {adata_RNA.shape[0]} cells, {adata_RNA.shape[1]} genes")
 
 
@@ -96,10 +100,6 @@ sc.pp.filter_genes(adata_RNA, min_cells=3) #genes in less than 3 cells
 
 print(f"After filtering: {adata_RNA.shape[0]} cells, {adata_RNA.shape[1]} genes")
 print("Filtering complete")
-
-#Save full unfiltered counts (all genes, all cells) as a DESeq2 fallback
-adata_RNA_full = adata_RNA.copy()
-adata_RNA_full.write_h5ad("adata_full_counts.h5ad")
 
 
 #3 DOUBLET REMOVAL (Warning: Scrublet takes a while)
