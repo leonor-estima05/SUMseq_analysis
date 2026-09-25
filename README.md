@@ -33,4 +33,9 @@ ATAC
 scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added yet**
 1. SCENIC+ - Infering Gene Regulatory Networks
 
+# Data Limitations
+Due to low read depth, intMono may be excluded from some analyses.
+<img width="1200" height="800" alt="star_gene_counts" src="https://github.com/user-attachments/assets/6990dd7c-82af-4cdd-a0fe-4aa66b0cc3d5" />
+
+
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
