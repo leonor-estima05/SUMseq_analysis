@@ -36,7 +36,17 @@ scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added ye
 # Data Limitations
 <img width="672" height="147" alt="image" src="https://github.com/user-attachments/assets/a4391994-157b-461c-b190-cf11bf80c6b6" />
 
-Due to extremely low median gene count/cell, intMono's RNA data has been excluded from the analysis. ncMo and cMo will be pseudobulked for ClusterProfiler and DESeq.
+Due to extremely low median gene count/cell, lack of expression of marker genes such as CD14, CD16, CD300E, CD45, etc. the primary monocyte's RNA data has been excluded from this analysis.
+
+# iMono Quality Control Results (Scanpy)
+<img width="995" height="912" alt="image" src="https://github.com/user-attachments/assets/7767e5b6-6611-46b1-bb97-213128aa6ad3" />
+<img width="997" height="957" alt="image" src="https://github.com/user-attachments/assets/81fd86db-8646-4e2e-927c-8f79b8cf15a8" />
+
+Violin plots support the low depth concerns in the iMono data, UMIs/nucleus is clustering at below 500. However, the original SUM-seq paper's hiPSC-derived macrophages also has a low depth of around 300 UMI/nucleus. As expected the nuclei cluster at near 0% mitochondrial reads. Due to low depth, it is likely a lot of this analysis will be exploratory, due to increased risk of statistical noise and artificats impacting the analysis.
+
+<img width="992" height="352" alt="image" src="https://github.com/user-attachments/assets/6cbcc28f-3533-45e9-8678-31e03f84b187" />
+
+This scrublet simulation histogram shows that scrublet detection will not work on this iMono sample. The left graph shows that the sample doublet scoring generally falls below scrublet's 0.28's threshold, and on the right scrublet's simulated doublets also fall below the 0.28 threshold. Therefore, even if doublets are present in the iMono sample, they won't get detected and therefore won't get removed. Scrublet will not be run on this sample.
 
 
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
