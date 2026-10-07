@@ -5,7 +5,7 @@
 general:
 
   # Root output dir. Make sure this directory is located somewhere on `/scratch` and NOT on `/g`. Specify the absolute path here. (DOES NOT APPLY TO US)
-  outDir: "/home/projects/icell/sumseq_pilot/RNA/sumseq_outdir"
+  outDir: "/home/projects/icell/sumseq_pilot/ATAC/ATAC_outdir"
 
   # Process RNA. True or False
   processRNA: False
