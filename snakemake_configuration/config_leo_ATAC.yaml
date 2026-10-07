@@ -84,7 +84,7 @@ ATAC:
   fastq_fileSuffix: "_001"
 
   # Path to the sample sheet. Relative to the directory from which you invoke snakemake
-  barcodes: 'example/input/metadata/barcodes_ATAC.tsv'
+  barcodes: '/home/projects/icell/sumseq_pilot/ATAC/ATAC_barcodes.tsv'
 
   # Path to Chromap index file. Default: empty string (automatic download based on specified genome version). See the README file for details
   chromapIndex: ""
