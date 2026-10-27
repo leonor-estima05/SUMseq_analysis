@@ -48,5 +48,20 @@ Violin plots support the low depth concerns in the iMono data, UMIs/nucleus is c
 
 This scrublet simulation histogram shows that scrublet detection will not work on this iMono sample. The left graph shows that the sample doublet scoring generally falls below scrublet's 0.28's threshold, and on the right scrublet's simulated doublets also fall below the 0.28 threshold. Therefore, even if doublets are present in the iMono sample, they won't get detected and therefore won't get removed. Scrublet will not be run on this sample.
 
+This sample was filtered using min_cells = 3 for gene filtering, min_genes = 150 for cell filtering, N_PCS = 15 for principal component inclusion (although the figure indicated PC1 accounted for nearly all data variation) and mitochondrial cut off of over 5% as these are nuclei-only reads.
+
+# iMono Clustering and Gene Expression Results (Scanpy)
+Leiden Clustering was the chosen clustering method, and at first 3 resolutions were tested (0.2, 0.5, 1.0) to then choose the appropriate one.
+<img width="1292" height="377" alt="image" src="https://github.com/user-attachments/assets/6780f0b0-89e9-4b71-9ed3-01f7b02c0028" />
+
+Resolution 1.0 was overdone at 11 clusters, it is likely that with a low-information sample such as this most clusters are arbitrary. Resolution 0.5 was chosen for further clustering because further analysis revealed each cluster was expressing sufficiently different marker genes. To determine which clusters to merge, violin plots were created based on gene categories (monocyte-associated, macrophage-associated, pluripotent-associated, and proliferation-associated genes) to determine which clusters most expressed each gene's category. 
+
+<img width="1357" height="342" alt="image" src="https://github.com/user-attachments/assets/15a228f0-78b6-44e6-a5d6-95cf6c782545" />
+
+Clusters 0, 1, 2, 5 were grouped into one "myeloid-like" cluster as they were expressing genes highly associated with both monocytes and macrophages (so myeloid cells in general) such as CD97 and SLC11A1. Cluster 3 was kept and expressed the most pluripotency-associated genes such as XACT and ROR1. Cluster 4 was kept as a low-information cluster as it was not expressing various category-associated genes. The final clustering is below.
+<img width="1035" height="697" alt="image" src="https://github.com/user-attachments/assets/601aef2c-5f20-4863-a475-c5115b58526d" />
+
+Based on this clustering and a previous tracer analysis on the iMono sample which showed only a subsect of the sample was expressing pluripotency and proliferation-associated genes it is likely there is a less- or undifferentiated group of myeloid cells in the sample.
+
 
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
