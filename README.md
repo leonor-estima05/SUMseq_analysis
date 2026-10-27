@@ -59,7 +59,7 @@ Resolution 1.0 was overdone at 11 clusters, it is likely that with a low-informa
 <img width="1357" height="342" alt="image" src="https://github.com/user-attachments/assets/15a228f0-78b6-44e6-a5d6-95cf6c782545" />
 
 Clusters 0, 1, 2, 5 were grouped into one "myeloid-like" cluster as they were expressing genes highly associated with both monocytes and macrophages (so myeloid cells in general) such as CD97 and SLC11A1. Cluster 3 was kept and expressed the most pluripotency-associated genes such as XACT and ROR1. Cluster 4 was kept as a low-information cluster as it was not expressing various category-associated genes. The final clustering is below.
-<img width="600" height="350" alt="image" src="https://github.com/user-attachments/assets/601aef2c-5f20-4863-a475-c5115b58526d" />
+<img width="1050" height="680" alt="image" src="https://github.com/user-attachments/assets/601aef2c-5f20-4863-a475-c5115b58526d" />
 
 Based on this clustering and a previous tracer analysis on the iMono sample which showed only a subsect of the sample was expressing pluripotency and proliferation-associated genes it is likely there is a less- or undifferentiated group of myeloid cells in the sample.
 
