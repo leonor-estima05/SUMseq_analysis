@@ -28,7 +28,9 @@ RNA
 4. [`ClusterProfiler_SUMseq.R`](RNA_analysis/ClusterProfiler_SUMseq.R) - Enrichment
 
 ATAC
-1. [`ArchR_SUMseq.R`](ATAC_analysis/ArchR_SUMseq.R) - QC, Peak Calling, Cell Clustering on Accessibility, Marker Scores, Gene Activity Scores, Motif Enrichment
+1. [`qc_ATAC.R`](ATAC_analysis/qc_ATAC.R) - QC and filtering
+2. [`clustering_ATAC.R`] - LSI, clustering, UMAP, gene scores
+3. [`peaks_ATAC.R`] - peak calling with MACS2, marker peaks, motifs, chromVAR
 
 scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added yet**
 1. SCENIC+ - Inferring Gene Regulatory Networks
