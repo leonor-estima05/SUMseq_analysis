@@ -27,10 +27,11 @@ RNA
 3. [`DESeq2_SUMseq.R`](RNA_analysis/DESeq2_SUMseq.R) - Differential expression analysis
 4. [`ClusterProfiler_SUMseq.R`](RNA_analysis/ClusterProfiler_SUMseq.R) - Enrichment
 
-ATAC
-1. [`qc_ATAC.R`](ATAC_analysis/qc_ATAC.R) - QC and filtering
-2. [`clustering_ATAC.R`] - LSI, clustering, UMAP, gene scores
-3. [`peaks_ATAC.R`] - peak calling with MACS2, marker peaks, motifs, chromVAR
+ATAC (Based on "Single Cell Best Practices" book "Chromatin Accessibility" section
+SnapATAC2 was used instead of ArchR for better compatability during multimodal analyses
+1. [`qcATAC_snap.py`](ATAC_analysis/qcATAC_snap.py) - QC and Filtering 
+2. [`clusteringATAC_snap.py`](ATAC_analysis/clusteringATAC_snap.py) - Dimensionality Reduction, UMAP and Leiden clustering
+3. [`peakcallingATAC_snap.py`](ATAC_analysis/peakcallingATAC_snap.py) - Peak Calling with MACS3, Motif Enrichment Analysis
 
 scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added yet**
 1. SCENIC+ - Inferring Gene Regulatory Networks
