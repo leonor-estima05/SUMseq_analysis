@@ -35,10 +35,13 @@ gr <- read_peaks(file.path(dir, "peaks_iMono_up_vs_hiPSC.txt"))
 
 #Now to annotate each peak with its nearest gene and feature
 anno <- annotatePeak(gr, TxDb = txdb, annoDb = "org.Hs.eg.db", tssRegion = c(-3000, 3000))
+png(file.path(dir, "anno_pie_iMono_up_vs_hiPSC.png"), width = 1800, height = 1400, res = 300)
 plotAnnoPie(anno)
+dev.off()
 write.csv(as.data.frame(anno), file.path(dir, "annotated_iMono_up_vs_hiPSC.csv"), row.names = FALSE)
 
 #Pathway Enrichment
 genes <- unique(as.data.frame(anno)$geneId)
 ego <- enrichGO(genes, OrgDb = org.Hs.eg.db, keyType = "ENTREZID", ont = "BP", readable = TRUE, universe = universe)
-dotplot(ego, showCategory = 15)
+p <- dotplot(ego, showCategory = 15)
+ggplot2::ggsave(file.path(dir, "GO_iMono_up_vs_hiPSC.png"), p, width = 7, height = 6, dpi = 300)
