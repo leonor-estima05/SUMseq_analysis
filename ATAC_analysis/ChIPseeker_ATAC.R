@@ -1,3 +1,7 @@
+#I will be using this dataset's peaks as the background for GO pathway enrichment comparison 
+
+
+
 #Need to convert current data to a GRange object (which ChIP-seq expects) first
 
 library(ChIPseeker)
@@ -20,15 +24,21 @@ read_peaks <- function(file) {
                   as.numeric(sub(".*-", "", p))))
   }
 
+#my background for peak reference
+bg_gr <- readPeakFile("/home/projects/icell/sumseq_pilot/ATAC/snapatac2_out/peaks_motifs/merged_peaks.bed")
+bg_anno <- annotatePeak(bg_gr, TxDb = txdb, tssRegion = c(-3000, 3000))
+universe <- unique(as.data.frame(bg_anno)$geneId)
+
+
 #starting with compring iMono and hiPSCs
 gr <- read_peaks(file.path(dir, "peaks_iMono_up_vs_hiPSC.txt"))
 
 #Now to annotate each peak with its nearest gene and feature
-anno <- annotatePeak(gr, TxDb = txdb, annoDB = "org.Hs.eg.db", tssRegion = c(-3000, 3000))
+anno <- annotatePeak(gr, TxDb = txdb, annoDb = "org.Hs.eg.db", tssRegion = c(-3000, 3000))
 plotAnnoPie(anno)
 write.csv(as.data.frame(anno), file.path(dir, "annotated_iMono_up_vs_hiPSC.csv"), row.names = FALSE)
 
 #Pathway Enrichment
-genes <- unique(as.data.frame(anna)$geneId)
-ego <- enrichGO(genes, OrgDb = org.Hs.eg.db, keyType = "ENTREZID", ont = "BP", readable = TRUE)
+genes <- unique(as.data.frame(anno)$geneId)
+ego <- enrichGO(genes, OrgDb = org.Hs.eg.db, keyType = "ENTREZID", ont = "BP", readable = TRUE, universe = universe)
 dotplot(ego, showCategory = 15)
