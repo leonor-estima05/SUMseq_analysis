@@ -32,6 +32,7 @@ SnapATAC2 was used instead of ArchR for better compatability during multimodal a
 1. [`qcATAC_snap.py`](ATAC_analysis/qcATAC_snap.py) - QC and Filtering 
 2. [`clusteringATAC_snap.py`](ATAC_analysis/clusteringATAC_snap.py) - Dimensionality Reduction, UMAP and Leiden clustering
 3. [`peakcallingATAC_snap.py`](ATAC_analysis/peakcallingATAC_snap.py) - Peak Calling with MACS3, Motif Enrichment Analysis
+4. [`ChIPseeker_ATAC.R`](ATAC_analysis/ChIPseeker_ATAC.R) -Finding Closest Genes to Peaks with ChIPseeker
 
 scATAC + scRNA (Gene Regulatory Network Analysis) **Script has not been added yet**
 1. SCENIC+ - Inferring Gene Regulatory Networks
