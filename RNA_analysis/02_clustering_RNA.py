@@ -1,4 +1,4 @@
-from __future__ import annotationsa
+from __future__ import annotations
 
 import pandas as pd
 import scanpy as sc
