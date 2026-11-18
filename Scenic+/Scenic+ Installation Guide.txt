@@ -1,0 +1,33 @@
+##How to Install Scenic+## 
+
+1. Create the scenicplus conda environment with a specific python version (I used 3.11.11)
+
+conda create --name scenicplus python=3.11.11 -y
+conda activate scenicplus
+
+2. Pre-install pybedtools using Bioconda (to prevent conflicts later)
+
+conda install -c bioconda pybedtools -y
+pip install --upgrade pip setuptools wheel
+
+3. Clone the scenicplus github repository
+
+git clone https://github.com/aertslab/scenicplus.git
+cd scenicplus
+
+
+4. Edit the scenicplus configuration files
+-In "requirements.in" and "requirements.txt" remove "pybedtools" (appears 4 times in requirements.txt and 1 time in requirements.in)
+-In "pyproject.toml" change the maximum python version from 3.11.8 to anything larger than your chosen version (eg 3.11.12) and where it has python version "3.11" change it to "3.11.11"
+
+5. Install scenicplus without dependencies 
+
+pip install . --no-deps
+pip install -r requirements.txt --no-deps
+
+
+*After the installation I still had “ModuleNotFoundError: No module named 'pkg_resources'” so that might have to be installed separately:
+
+python -m pip install "setuptools<70"
+python -c "import pkg_resources; print('pkg_resources OK')"
+
