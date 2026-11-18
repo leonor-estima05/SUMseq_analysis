@@ -1,4 +1,4 @@
-##How to Install Scenic+## 
+How to Install Scenic+
 
 1. Create the scenicplus conda environment with a specific python version (I used 3.11.11)
 
