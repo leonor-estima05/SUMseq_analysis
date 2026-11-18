@@ -67,5 +67,9 @@ Clusters 0, 1, 2, 5 were grouped into one "myeloid-like" cluster as they were ex
 
 Based on this clustering and a previous tracer analysis on the iMono sample which showed only a subsect of the sample was expressing pluripotency and proliferation-associated genes it is likely there is a less- or undifferentiated group of myeloid cells in the sample.
 
+# ATAC Clustering Results (SnapATAC2)
+UMAP Clustering was used to initially determine if the iMonos are closer to the hiPSCs or Primary Monocytes
+<img width="930" height="517" alt="image" src="https://github.com/user-attachments/assets/4e13f26b-f984-4cd4-bf6c-37095d13046d" />
+The iMono cluster (dark purple) is closer to the primary monocytes, but still forms its own cluster. The iMonos likely gained a myeloid program but still differ genomically from the primary monocytes (or might be closer to macrophage-like cells).
 
 **Note: As this analysis is ongoing, the scripts and organization may change at any time**
